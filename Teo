@@ -1,0 +1,351 @@
+# install and load packages
+libraries = c("jsonlite", "curl", "zoo")
+inlapply(libraries, function(x) if (!(x %in% installed.packages())) {
+  install.packages(x)
+})
+lapply(libraries, library, quietly = TRUE, character.only = TRUE)
+
+json_file <- "http://data.thecrix.de/data/crix.json"
+crix <- fromJSON(json_file)
+crix$date <- as.Date(crix$date)
+
+crix
+
+#
+plot(crix, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of CRIX", cex.lab = 2)
+
+
+#convert to xts for comparability
+library(xts)
+cryx<-as.matrix(crix)
+cryx<-xts(crix$price,order.by=as.POSIXct(crix$date))
+
+#1st segment
+cryx_s1<-cryx[1:154]
+cryx_s1
+plot(cryx_s1, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of CRIX", cex.lab = 2)
+
+#2nd segment
+cryx_s2<-cryx[155:335]
+cryx_s2
+plot(cryx_s2, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of CRIX", cex.lab = 2)
+
+#3rd segment
+cryx_s3<-cryx[336:519]
+cryx_s3
+plot(cryx_s3, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of CRIX", cex.lab = 2)
+
+#4th segment
+cryx_s4<-cryx[520:701]
+cryx_s4
+plot(cryx_s4, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of CRIX", cex.lab = 2)
+
+#5th segment
+cryx_s5<-cryx[702:885]
+cryx_s5
+plot(cryx_s5, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of CRIX", cex.lab = 2)
+
+#6th segment
+cryx_s6<-cryx[886:1066]
+cryx_s6
+plot(cryx_s6, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of CRIX", cex.lab = 2)
+
+#7th segment
+cryx_s7<-cryx[1067:1250]
+cryx_s7
+plot(cryx_s7, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of CRIX", cex.lab = 2)
+
+#8th segment
+cryx_s8<-cryx[1251:1431]
+cryx_s8
+plot(cryx_s8, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of CRIX", cex.lab = 2)
+
+#9th segment
+cryx_s9<-cryx[1432:1614]
+cryx_s9
+plot(cryx_s9, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of CRIX", cex.lab = 2)
+
+
+#data BITCOIN
+library(quantmod)
+
+
+BTC<-getSymbols.yahoo("BTC-USD",.GlobalEnv,class ='xts',index.class  ='Date',from = "2014-08-01",to = "2018-12-31", periodicity = "daily")
+
+`BTC-USD`
+dim(`BTC-USD`)
+
+bitcoin<-`BTC-USD`[,6]
+
+plot.ts(bitcoin, type = "l")
+
+bitcoin$`BTC-USD.Adjusted`
+bitcoin
+
+#by year segments
+
+#1st segment
+btc_s1<-bitcoin$`BTC-USD.Adjusted`[1:153]
+btc_s1
+
+plot(btc_s1, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+
+#2nd segment 
+btc_s2<-bitcoin$`BTC-USD.Adjusted`[154:335]
+btc_s2
+plot(btc_s2, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+
+#3rd segment 
+btc_s3<-bitcoin$`BTC-USD.Adjusted`[336:518]
+btc_s3
+plot(btc_s3, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+
+#4th segment 
+btc_s4<-bitcoin$`BTC-USD.Adjusted`[519:701]
+btc_s4
+plot(btc_s4, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+
+#5th segment 
+btc_s5<-bitcoin$`BTC-USD.Adjusted`[702:884]
+btc_s5
+plot(btc_s5, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+
+#6th segment 
+btc_s6<-bitcoin$`BTC-USD.Adjusted`[885:1066]
+btc_s6
+plot(btc_s6, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+
+#7th segment 
+btc_s7<-bitcoin$`BTC-USD.Adjusted`[1067:1249]
+btc_s7
+plot(btc_s7, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+
+#8th segment 
+btc_s8<-bitcoin$`BTC-USD.Adjusted`[1250:1431]
+btc_s8
+plot(btc_s8, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+
+#9th segment 
+btc_s9<-bitcoin$`BTC-USD.Adjusted`[1432:1614]
+btc_s9
+plot(btc_s9, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+
+#compare 1st segment
+par(mfrow=c(2,1))
+par(mar=c(1,1,1,1))
+plot(cryx_s1, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of CRIX")
+plot(btc_s1, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of BTC")
+
+#compare 2nd segment
+par(mfrow=c(2,1))
+par(mar=c(1,1,1,1))
+plot(cryx_s2, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of CRIX")
+plot(btc_s2, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of BTC")
+
+#compare 3rd segment
+par(mfrow=c(2,1))
+par(mar=c(1,1,1,1))
+plot(cryx_s3, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of CRIX")
+plot(btc_s3, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of BTC")
+
+#compare 4th segment
+par(mfrow=c(2,1))
+par(mar=c(1,1,1,1))
+plot(cryx_s4, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of CRIX")
+plot(btc_s4, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of BTC")
+
+#compare 5th segment
+par(mfrow=c(2,1))
+par(mar=c(1,1,1,1))
+plot(cryx_s5, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of CRIX")
+plot(btc_s5, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of BTC")
+
+#compare 6th segment
+par(mfrow=c(2,1))
+par(mar=c(1,1,1,1))
+plot(cryx_s6, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of CRIX")
+plot(btc_s6, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of BTC")
+
+#compare 7th segment
+par(mfrow=c(2,1))
+par(mar=c(1,1,1,1))
+plot(cryx_s7, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of CRIX")
+plot(btc_s7, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of BTC")
+
+#compare 8th segment
+par(mfrow=c(2,1))
+par(mar=c(1,1,1,1))
+plot(cryx_s8, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of CRIX")
+plot(btc_s8, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of BTC")
+
+#compare 9th segment
+par(mfrow=c(2,1))
+par(mar=c(1,1,1,1))
+plot(cryx_s9, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of CRIX")
+plot(btc_s9, type = "l", col = "blue3",  xlab = "Date", ylab = "Performance of BTC")
+
+#group by semesters to get the same dimensions
+
+# group semester 1
+group_s1<-merge(btc_s1,cryx_s1,fill=na.locf)
+group_s1
+
+# group semester 2
+group_s2<-merge(btc_s2,cryx_s2,fill=na.locf)
+group_s2
+
+# group semester 3
+group_s3<-merge(btc_s3,cryx_s3,fill=na.locf)
+group_s3
+
+# group semester 4
+group_s4<-merge(btc_s4,cryx_s4,fill=na.locf)
+group_s4
+
+# group semester 5
+group_s5<-merge(btc_s5,cryx_s5,fill=na.locf)
+group_s5
+
+# group semester 6
+group_s6<-merge(btc_s6,cryx_s6,fill=na.locf)
+group_s6
+
+# group semester 7
+group_s7<-merge(btc_s7,cryx_s7,fill=na.locf)
+group_s7
+
+# group semester 5
+group_s8<-merge(btc_s8,cryx_s8,fill=na.locf)
+group_s8
+
+# group semester 5
+group_s9<-merge(btc_s9,cryx_s9,fill=na.locf)
+group_s9
+
+#correlation analysis segments
+cor(group_s1 [ ,1],group_s1 [,2])
+cor(group_s2 [ ,1],group_s2 [,2])
+cor(group_s3 [ ,1],group_s3 [,2])
+cor(group_s4 [ ,1],group_s4 [,2])
+cor(group_s5 [ ,1],group_s5 [,2])
+cor(group_s6 [ ,1],group_s6 [,2])
+cor(group_s7 [ ,1],group_s7 [,2])
+cor(group_s8 [ ,1],group_s8 [,2])
+cor(group_s9 [ ,1],group_s9 [,2])
+
+#1st segment
+btc_s1ret<-100*diff(log(btc_s1),1)
+cryx_s1ret<-100*diff(log(cryx_s1),1)
+plot(btc_s1ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+plot(cryx_s1ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+group_s1<-merge(diff(log(btc_s1),1),diff(log(cryx_s1),1),fill = na.locf)
+cor(group_s1[2:dim(group_s1)[1],1],group_s1[2:dim(group_s1)[1],2])
+cor.test(group_s1[2:dim(group_s1)[1],1],group_s1[2:dim(group_s1)[1],2], method = "pearson", alternative = "greater", exact = FALSE)
+regr_s1<-lm(group_s1[2:dim(group_s1)[1],2]~group_s1[2:dim(group_s1)[1],1])
+summary(regr_s1)
+
+#2nd segment
+btc_s2ret<-100*diff(log(btc_s2),1)
+cryx_s2ret<-100*diff(log(cryx_s2),1)
+plot(btc_s2ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+plot(cryx_s2ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+group_s2<-merge(diff(log(btc_s2),1),diff(log(cryx_s2),1),fill = na.locf)
+cor.test(group_s2[2:dim(group_s2)[1],1],group_s2[2:dim(group_s2)[1],2], method = "pearson", alternative = "greater", exact = FALSE)
+cor(group_s2[2:dim(group_s2)[1],1],group_s2[2:dim(group_s2)[1],2])
+regr_s2<-lm(group_s2[2:dim(group_s2)[1],2]~group_s2[2:dim(group_s2)[1],1])
+summary(regr_s2)
+
+#3rd segment
+btc_s3ret<-100*diff(log(btc_s3),1)
+cryx_s3ret<-100*diff(log(cryx_s3),1)
+plot(btc_s3ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+plot(cryx_s3ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+group_s3<-merge(diff(log(btc_s3),1),diff(log(cryx_s3),1),fill = na.locf)
+cor.test(group_s3[2:dim(group_s3)[1],1],group_s3[2:dim(group_s3)[1],2], method = "pearson", alternative = "greater", exact = FALSE)
+cor(group_s3[2:dim(group_s3)[1],1],group_s3[2:dim(group_s3)[1],2])
+regr_s3<-lm(group_s3[2:dim(group_s3)[1],2]~group_s3[2:dim(group_s3)[1],1])
+summary(regr_s3)
+
+#4th segment
+btc_s4ret<-100*diff(log(btc_s4),1)
+cryx_s4ret<-100*diff(log(cryx_s4),1)
+plot(btc_s4ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+plot(cryx_s4ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+group_s4<-merge(diff(log(btc_s4),1),diff(log(cryx_s4),1),fill = na.locf)
+cor.test(group_s4[2:dim(group_s4)[1],1],group_s4[2:dim(group_s4)[1],2], method = "pearson", alternative = "greater", exact = FALSE)
+cor(group_s4[2:dim(group_s4)[1],1],group_s4[2:dim(group_s4)[1],2])
+regr_s4<-lm(group_s4[2:dim(group_s4)[1],2]~group_s4[2:dim(group_s4)[1],1])
+summary(regr_s4)
+
+#5th segemnt
+btc_s5ret<-100*diff(log(btc_s5),1)
+cryx_s5ret<-100*diff(log(cryx_s5),1)
+plot(btc_s5ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+plot(cryx_s5ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+group_s5<-merge(diff(log(btc_s5),1),diff(log(cryx_s5),1),fill = na.locf)
+cor.test(group_s5[2:dim(group_s5)[1],1],group_s5[2:dim(group_s5)[1],2], method = "pearson", alternative = "greater", exact = FALSE)
+cor(group_s5[2:dim(group_s5)[1],1],group_s5[2:dim(group_s5)[1],2])
+regr_s5<-lm(group_s5[2:dim(group_s5)[1],2]~group_s5[2:dim(group_s5)[1],1])
+summary(regr_s5)
+
+#6th segment
+btc_s6ret<-100*diff(log(btc_s3),1)
+cryx_s6ret<-100*diff(log(cryx_s3),1)
+plot(btc_s6ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+plot(cryx_s6ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+group_s6<-merge(diff(log(btc_s6),1),diff(log(cryx_s6),1),fill = na.locf)
+cor.test(group_s6[2:dim(group_s6)[1],1],group_s6[2:dim(group_s6)[1],2], method = "pearson", alternative = "greater", exact = FALSE)
+cor(group_s6[2:dim(group_s6)[1],1],group_s6[2:dim(group_s6)[1],2])
+regr_s6<-lm(group_s6[2:dim(group_s6)[1],2]~group_s6[2:dim(group_s6)[1],1])
+summary(regr_s6)
+
+#7th segment
+btc_s7ret<-100*diff(log(btc_s7),1)
+cryx_s7ret<-100*diff(log(cryx_s7),1)
+plot(btc_s7ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+plot(cryx_s7ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+group_s7<-merge(diff(log(btc_s7),1),diff(log(cryx_s7),1),fill = na.locf)
+cor.test(group_s7[2:dim(group_s7)[1],1],group_s7[2:dim(group_s7)[1],2], method = "pearson", alternative = "greater", exact = FALSE)
+cor(group_s7[2:dim(group_s7)[1],1],group_s7[2:dim(group_s7)[1],2])
+regr_s7<-lm(group_s7[2:dim(group_s7)[1],2]~group_s7[2:dim(group_s7)[1],1])
+summary(regr_s7)
+
+#8th segment
+btc_s8ret<-100*diff(log(btc_s8),1)
+cryx_s8ret<-100*diff(log(cryx_s8),1)
+plot(btc_s8ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+plot(cryx_s8ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+group_s8<-merge(diff(log(btc_s8),1),diff(log(cryx_s8),1),fill = na.locf)
+cor.test(group_s8[2:dim(group_s8)[1],1],group_s8[2:dim(group_s8)[1],2], method = "pearson", alternative = "greater", exact = FALSE)
+cor(group_s8[2:dim(group_s8)[1],1],group_s8[2:dim(group_s8)[1],2])
+regr_s8<-lm(group_s8[2:dim(group_s8)[1],2]~group_s8[2:dim(group_s8)[1],1])
+summary(regr_s8)
+
+#9th segment
+btc_s9ret<-100*diff(log(btc_s9),1)
+cryx_s9ret<-100*diff(log(cryx_s9),1)
+plot(btc_s9ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+plot(cryx_s9ret, type = "l", col = "blue3", lwd = 3, xlab = "Date", ylab = "Performance of BTC", cex.lab = 2)
+group_s9<-merge(diff(log(btc_s9),1),diff(log(cryx_s9),1),fill = na.locf)
+cor.test(group_s9[2:dim(group_s9)[1],1],group_s9[2:dim(group_s9)[1],2], method = "pearson", alternative = "greater", exact = FALSE)
+cor(group_s9[2:dim(group_s9)[1],1],group_s9[2:dim(group_s9)[1],2])
+regr_s9<-lm(group_s9[2:dim(group_s9)[1],2]~group_s9[2:dim(group_s9)[1],1])
+summary(regr_s9)
+
+#getting the regression coefficients
+regr_s1$coefficients
+regr_s2$coefficients
+regr_s3$coefficients
+regr_s4$coefficients
+regr_s5$coefficients
+regr_s6$coefficients
+regr_s7$coefficients
+regr_s8$coefficients
+regr_s9$coefficients
+
+#creating correlation vectors
+vector_corr<-c(0.51,0.84,0.61,0.49,0.08,0.56,0.22,0.21,-0.02)
+vector_regr<-c(0.47,0.75,0.60,0.48,0.08,0.56,0.20,0.22,-0.02)
+plot(vector_corr,type="l")
+plot(vector_regr,type="l")
+
